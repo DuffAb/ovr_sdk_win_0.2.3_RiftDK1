@@ -786,15 +786,15 @@ Vector3f EulerFromBodyFrameUpdate(const TrackerSensors& update, UByte sampleNumb
 
 void SensorDeviceImpl::onTrackerMessage(TrackerMessage* message)
 {
-    if (message->Type != TrackerMessage_Sensors)
+    if (message->Type != TrackerMessage_Sensors)    //如果不是传感器数据，返回
         return;
     
     const float     timeUnit   = (1.0f / 1000.f);
-    TrackerSensors& s = message->Sensors;
+    TrackerSensors& s = message->Sensors;//引用，避免构造
     
 
     // Call OnMessage() within a lock to avoid conflicts with handlers.
-    Lock::Locker scopeLock(HandlerRef.GetLock());
+    Lock::Locker scopeLock(HandlerRef.GetLock());//构造上锁，析构解锁
 
 
     if (SequenceValid)
